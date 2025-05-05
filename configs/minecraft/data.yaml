@@ -1,0 +1,19 @@
+_minecraft_path: "./data/mc-data"
+_minecraft_custom_name: "minecraft"
+
+train_dataset: MinecraftDataset
+train_val_num_workers: 16
+train_kwargs:
+    data_path: ${_minecraft_path}
+    resolution: ${resolution}
+    custom_name: ${_minecraft_custom_name}
+    split: "train"
+    random_seed: 0
+
+val_dataset: MinecraftDataset
+val_kwargs:
+  data_path: ${_minecraft_path}
+  resolution: ${resolution}
+  custom_name: ${_minecraft_custom_name}
+  split: "val"
+  random_seed: "fixed"
