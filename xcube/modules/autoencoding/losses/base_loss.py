@@ -65,8 +65,9 @@ class Loss(nn.Module):
             ref_xyz = ref_grid.grid_to_world(ref_grid.ijk.float()) 
         else:
             ref_xyz = fvdb.JaggedTensor(batch[DS.INPUT_PC])
-        
-        gt_normal = normal_feats.grid.splat_trilinear(ref_xyz, fvdb.JaggedTensor(batch[DS.TARGET_NORMAL]))
+
+        if self.hparams.use_input_normal:
+            gt_normal = normal_feats.grid.splat_trilinear(ref_xyz, fvdb.JaggedTensor(batch[DS.TARGET_NORMAL]))
         # normalize normal
         gt_normal.jdata /= (gt_normal.jdata.norm(dim=1, keepdim=True) + eps)
         normal_loss = F.l1_loss(gt_normal.jdata, normal_feats.feature.jdata)
