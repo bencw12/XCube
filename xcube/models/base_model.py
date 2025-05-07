@@ -307,9 +307,10 @@ class BaseModel(pl.LightningModule):
         dictionary = {
             prefix + "/" + str(k): v for k, v in dictionary.items()
         }
+
         self.log_dict(dictionary=dictionary,
                       prog_bar=prog_bar,
-                      logger=logger, on_step=on_step, on_epoch=on_epoch)
+                      logger=logger, on_step=on_step, on_epoch=on_epoch, batch_size=1)
 
     def log_image(self, name: str, img, step: Optional[int] = None):
         if self.trainer.logger is not None:

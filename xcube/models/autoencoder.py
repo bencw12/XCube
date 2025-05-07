@@ -105,6 +105,7 @@ class Model(BaseModel):
         input_xyz = batch[DS.INPUT_PC]
         hash_tree = self.build_hash_tree(input_xyz)
         input_grid = hash_tree[0]
+
         batch.update({'input_grid': input_grid})
 
         if not self.hparams.use_hash_tree:
@@ -168,9 +169,8 @@ class Model(BaseModel):
             self.log_dict_prefix('val_loss', latent_dict)
 
         loss_sum = loss_dict.get_sum()
-        self.log('val_loss' if is_val else 'train_loss/sum', loss_sum)
-        self.log('val_step', self.global_step)
-
+        self.log('val_loss' if is_val else 'train_loss/sum', loss_sum, batch_size=1)
+        self.log('val_step', self.global_step, batch_size=1)
         return loss_sum
 
     def test_step(self, batch, batch_idx):        
